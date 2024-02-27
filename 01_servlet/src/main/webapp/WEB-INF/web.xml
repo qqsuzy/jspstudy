@@ -9,16 +9,24 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <description></description>
     <display-name>LifeCycle</display-name>
-    <servlet-name>LifeCycle</servlet-name> <!-- LifeCycle :  별명  -->
-    <servlet-class>pkg01_lifecycle.LifeCycle</servlet-class> <!-- 본래 이름 (original) -->
+    <servlet-name>LifeCycle</servlet-name>
+    <servlet-class>pkg01_lifecycle.LifeCycle</servlet-class>
   </servlet>
-  
   <servlet-mapping>
-    <servlet-name>LifeCycle</servlet-name> <!-- LifeCycle :  별명  -->
-    <url-pattern>/cycle</url-pattern>      <!-- /cycle을 입력하면 동작할 것  --> 
+    <servlet-name>LifeCycle</servlet-name>
+    <url-pattern>/cycle</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MyRequest</display-name>
+    <servlet-name>MyRequest</servlet-name>
+    <servlet-class>pkg02_request.MyRequest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyRequest</servlet-name>
+    <url-pattern>/request</url-pattern>
   </servlet-mapping>
 </web-app>

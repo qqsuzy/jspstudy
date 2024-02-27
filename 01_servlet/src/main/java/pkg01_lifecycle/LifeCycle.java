@@ -15,7 +15,8 @@ import java.io.IOException;
  * 2. 클라이언트의 요청을 받는 Java 클래스이다. (온갖 종류의 요청을 다 받는다.)
  * 3. jakarta.servlet.http.HttpServlet 클래스를 상속 받는다.
  *    (Tomcat 이 지원하는 클래스이므로 Tomcat 이 없으면 실행할 수 없다.)
- * 4. 동일한 프로젝트(컨텍스트 context )에서는 동일한 이름의 Servlet이 존재할 수 없다. 
+ *    
+ * 4. 동일한 프로젝트(컨텍스트 context)에서는 동일한 이름의 Servlet이 존재할 수 없다. 
  *    (패키지가 다르면 자바의 일반 클래스는 동일한 클래스명을 사용할 수 있었으나 Servlet은 동일한 이름이 불가능하다. )
  *    (Servlet이 저장되는 장소가 JSP/Servlet Container(톰캣) 이기 때문이다.)
  * 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+  <!-- <a> 태그 요청 -->
+  <div>
+    <a id="link" data-number="10" data-number2="1.5">요청</a> <!-- doGet 메소드에 HttpServletRequest request 로 number=10을 보낸다. -->
+  </div>
+  <script>
+  
+  // 요청 만들기 (어딘가에 저장된 데이터를 가져다 요청을 만든다)
+  var link = document.getElementById('link');
+  link.href = '/servlet/request?number=' + link.dataset.number + '&number2=' + link.dataset.number2;
+  </script>
+
+</body>
+</html>
