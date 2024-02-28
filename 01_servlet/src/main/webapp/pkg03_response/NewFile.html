@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  
+  <a href="javascript:fn_get_response()">요청</a> <!-- 함수 호출을 넣어준다. <a> 태그의 href 에서 response() 함수를 호출한다. -->
+  
+  <script>
+  
+  const fn_get_response = ()=>{ 
+	  location.href = '/servlet/response';  // /response : URL mapping 값
+  }
+  
+  </script>
+  
+</body>
+</html>
