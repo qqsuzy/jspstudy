@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div>
+    <button type="button" id="btn1">정보가져오기</button>
+  </div>
+  <div>
+    <table border="1">
+      <tbody id="contents1"></tbody>
+    </table>
+  </div>  
+  <script>
+      
+      // 비동기 작업 (AJAX) : 페이지 변화 없이 작업을 수행하고자 할 때 사용한다. 
+      
+      // XML 데이터 요청
+      const getData1 = ()=>{
+
+        const options = { 
+          method: 'GET'
+        }
+
+        fetch('/servlet/getData1', options) // '/servlet/getData1' : 데이터 요청 -> .then() 메소드의 파라미터(response)로 응답 데이터를 받는다. ( 응답 데이터 : xml 데이터를 품고 있는 response 객체)
+         /* .then((response)=>{
+            if(response.ok){          // 1. 데이터를 잘 받았으면
+              return response.text(); // 2. response 객체를 가진 데이터를 반환한다. -> XML 데이터를 추출하기 위해 text() 메소드 사용     -- JSON : response.json() 
+            }
+          }) */
+          
+          // 위와 같은 코드 (축약 ver)
+          .then(response=>response.text())
+          .then(resData=>{
+            
+            // String 타입 resData를 XML Document로 변경하기
+            const domParser = new DOMParser();
+            const xmlDoc = domParser.parseFromString(resData, 'application/xml'); // parsing 작업
+            
+            // <tbody id="contents1"></tbody> 
+            const contents1 = document.getElementById('contents1');
+            contents1.innerHTML = ''; // 초기화
+            
+            // <weather year="2024" month="03" day="04" hour="10"> 
+            const weather = xmlDoc.getElementsByTagName('weather')[0];
+            contents1.innerHTML += '<tr><td colspan="3">' 
+                                  + weather.getAttribute('year') + '-' 
+                                  + weather.getAttribute('month') + '-'
+                                  + weather.getAttribute('day') + '&nbsp;' 
+                                  + weather.getAttribute('hour') + '시</td></tr>'
+                                  
+            // <local desc="맑음" ta="4.5">속초</local>
+            const locals = xmlDoc.getElementsByTagName('local');    
+            for(let i = 0; i < locals.length; i++) {
+            let str = '<tr>';
+            str += '<td>' + locals[i].textContent + '</td>';
+            str += '<td>' + locals[i].getAttribute('desc') + '</td>';
+            str += '<td>' + locals[i].getAttribute('ta') + '</td>';
+            str += '</tr>';
+            contents1.innerHTML += str;    
+           }                        
+        })
+        
+      }
+      
+      document.getElementById('btn1').addEventListener('click', getData1);
+       
+  </script>
+  <hr>
+    
+    <div>
+      <button type="button" id="btn2">정보가져오기</button>
+    </div>
+      <table border="1">
+        <thead>
+          <tr>
+            <td>발생일시</td>
+            <td>사망자수</td>
+            <td>부상자수</td>
+          </tr>
+        </thead>
+        <tbody id="contents2"></tbody>
+      </table>
+    <script>
+     
+     // 1, 2번 처리방식은 선택사항
+     // 1) done, fail 
+      const getData2 = ()=>{
+        $.ajax({
+          /* 요청 property */
+          type:'GET',
+          url:'/servlet/getData2',
+          /* 응답 property */
+          dataType: 'jason' // 'xml' , 'json'
+        }).done((resData)=>{
+          $.each(resData.items.item, (i, elem)=>{  // each() 메소드 1) $.each(배열, 함수(인덱스,요소){})  2) 매개 변수로 받은 것을 사용해 for in 반복문과 같이 배열/객체의 요소를 검사하는 메소드
+            let str = '<tr>';
+              str += '<td>' + elem.occrrnc_dt + '</td>';
+              str += '<td>' + elem.dth_dnv_cnt + '</td>';
+              str += '<td>' + elem.injpsn_cnt +'</td>';
+              str += '</tr>';
+              $('$contents2').append(str);
+          }) 
+        }).fail((jqXHR)=>{
+          console.log(jqXHR.responseText + '(' + jqXHR.status + ')');
+        })
+          
+      }
+      $('#btn2').on('click', getData2);
+     
+     /* 2) success, error 
+      const getData2 = ()=>{
+        $.ajax({
+          
+          type:'GET',
+          url:'/servlet/getData2',
+          
+          dataType: 'jason', 
+          success: (resData)=>{   // 응답 성공 -> resData 로 데이터를 받아온다.
+            
+          },
+          error: (jqXHR)=>{ // 응답 실패 -> jqXHR : 에러에 관련된 각종 정보들이 담겨서 넘어온다.
+          }
+      */  
+      
+    </script>
+
+</body>
+</html>
