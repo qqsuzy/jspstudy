@@ -28,8 +28,7 @@ public class DataBind3 extends HttpServlet {
      * 3. removeAttribute(속성)  : 제거한다.
      */
 
-	  /************ 중요! 통으로 외우기
-	   * 0 ***********/
+	  /************ 중요! 통으로 외우기  ************/
 	  // setAttribute 메소드로 request 에 데이터 저장 => forward 해서 데이터를 가지고 이동한다.
     
     // HttpServletRequest에 데이터 저장하기 (이미 doGet 메소드의 파라미터에 생성되어 있어서 선언하지 않아도 된다.)

@@ -5,7 +5,7 @@
   지시어(directive)
   1. <@ page %>     : 현재 페이지 설정, import 
   2. <@ include %>  : 현재 페이지에 따른 페이지를 포함
-  3. <@ taglib %>   : JSTL(Java Standard Tag Library) => Java 문법이 태그로 만들어져 있음
+  3. <@ taglib %>   : JSTL(JavaServerPage Standard Tag Library) => Java 문법이 태그로 만들어져 있음
  --%>
  
 <%@page import="java.time.LocalDateTime"%>
