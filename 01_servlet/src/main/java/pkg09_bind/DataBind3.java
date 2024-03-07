@@ -19,6 +19,9 @@ public class DataBind3 extends HttpServlet {
      * 1. ServletContext      : 컨텍스트 종료(애플리케이션 실행 종료) 전까지 데이터를 유지한다. => 가장 넓은 범위 (극소수 (3))
      * 2. HttpSession         : 세션 종료(웹 브라우저 종료) 전까지 데이터를 유지한다. (10~20% (2))
      * 3. HttpServletRequest  : 요청 종료(응답) 전까지 데이터를 유지한다.             (70~80% 사용 (1))
+     * 
+     * request 에는 저장이 가능, response 는 저장소 개념이 없다!
+     * 
      */
     
     /*

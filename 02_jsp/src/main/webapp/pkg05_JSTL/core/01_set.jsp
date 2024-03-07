@@ -40,6 +40,7 @@
  <div>${applicationScope.a}</div>
  
  <%-- 자주 사용하게 될 <c:set>  => value 는 둘 다 사용가능 --%>
+ <%-- contextPath 변수에 저장하기 --%>
  <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="page"></c:set>
  <c:set var="contextPath" value=" <%=request.getContextPath()%>"></c:set> <%-- scope="page" 는 디폴트 => 생략가능 --%>
  
