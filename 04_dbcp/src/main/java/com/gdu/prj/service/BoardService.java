@@ -11,6 +11,7 @@ public interface BoardService {
   ActionForward editBoard(HttpServletRequest request);    // 수정(편집)화면 서비스,  
   ActionForward modifyBoard(HttpServletRequest request);  // 진짜 수정하는 서비스 (DB 내의 데이터 수정)
   ActionForward removeBoard(HttpServletRequest request);  // 
+  ActionForward removeBoards(HttpServletRequest request); // 
   
   
 }
