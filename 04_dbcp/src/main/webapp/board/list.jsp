@@ -12,11 +12,30 @@
   .row > span {  
     display: inline-block;
   }
-  .row > span:nth-of-type(2) {
+  .row > span:nth-of-type(3) {
     width: 150px;
   }
-  .row > span:nth-of-type(3) {
+  .row > span:nth-of-type(4) {
     width: 100px;
+  }
+  .paging {
+    display: flex;
+  }
+  .paging > div {
+    width: 30px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+  }
+  .paging a {
+    color: #333;
+    text-decoration: none;
+  }
+  .dont-click {
+    color: silver;
+  }
+  .current-page {
+    color: limegreen!important;
   }
 </style>
 </head>
@@ -30,9 +49,29 @@
   
   <div>
     <span>게시글 개수</span>
-    <span>${boardCount}</span> 
+    <span>${total}</span> 
+  </div>
+  <div>
+    <a href="${contextPath}/board/list.brd?page=1&sort=DESC&display=${display}">내림차순</a>
+    <span>|</span>
+    <a href="${contextPath}/board/list.brd?page=1&sort=ASC&display=${display}">오름차순</a>
   </div>
   
+    <div>
+      <select id="display">
+        <option>20</option>
+        <option>50</option>
+        <option>100</option>
+      </select>
+    </div>
+    <script>
+      document.getElementById('display').value = ${display};
+      document.getElementById('display').addEventListener('change', (evt)=>{
+    	  location.href= '${contextPath}/board/list.brd?page=1&sort=${sort}&display=' + evt.target.value;
+      })
+    </script>
+  
+    <div class="paging">${pasing}</div> <%-- CSS 적용할 수 있도록 class 추가 --%> 
   
   <div>
     <c:if test = "${empty boardList}">  <%-- boardList가 비어있는지 체크 --%>
@@ -41,7 +80,8 @@
      <c:if test="${not empty boardList}">
       <c:forEach items="${boardList}" var="board">    <%-- for문 안에 id 속성을 넣을 때 주의! id는 유일한 식별자이기에 class로 식별자 구분 --%>
         <div class="row">
-       <span><input type="checkbox" class="chk-each" value="${board.board_no}"></span>
+          <span><input type="checkbox" class="chk-each" value="${board.board_no}"></span>
+          <span>${board.board_no}</span>
           <span><a href="${contextPath}/board/detail.brd?board_no=${board.board_no}">${board.title}</a></span>
           <span>${board.created_at}</span>
         </div>
@@ -49,6 +89,8 @@
       <div>
          <button type="button" id="btn-remove">선택삭제</button>
       </div>
+      
+      
       <script>
       const chkEach = $('.chk-each'); // jQuery wrapper로 묶었기 때문에 chkEach 는 jQuery 객체
       const btnRemove = $('#btn-remove'); 

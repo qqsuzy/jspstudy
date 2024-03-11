@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+ <configuration>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="GD"/>
+        <property name="password" value="1111"/>
+      </dataSource> 
+    </environment>
+  </environments>
+  
+  <mappers>
+    <mapper resource="com/gdu/prj/dao/board_t.xml"/> <!-- mapper  경로 : com.gdu.prj.dao.board_t.xml (X) -> 확장자와 경로 모두 .(온점)으로 넣으면 충돌나기 때문에 경로는 /(슬래시)로 하고 확장자만 .(온점)으로 표기  -->
+  </mappers>
+  
+  <!--  
+  
+     #mybatis 사용하면 달라지는 점
+    1.  Connection, ResultSet, PreparedStatement (dao 삼총사)를 
+        사용하지 않음 -> SqlSession을 사용함.
+        
+    2. ┌──────┐  ┌────────┐             
+       | Dao  |  | mapper |        => 자바코드와 SQL 쿼리문은 분리되어 작성
+       | java |  |  SQL   |        => 다른 부분은 JDBC 와 동일하고 DAO 부분만 다름
+       └──────┘  └────────┘
+       
+    3. !DOCTYPE 에 따라 확장자 포함 여부가 달라짐 
+       - configuration 은 확장자 포함 , mapper 은 확장자 미포함
+       configuration mapper =>  "com/gdu/prj/dao/board_t.xml"
+       mapper mapper        =>  "com.gdu.prj.dao.board_t"
+         
+   -->
+  
+ </configuration>

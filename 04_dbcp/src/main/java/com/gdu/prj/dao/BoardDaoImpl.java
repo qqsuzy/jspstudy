@@ -107,14 +107,19 @@ public class BoardDaoImpl implements BoardDao {
   }
 
   @Override
-  public List<BoardDto> selectBoardList(Map<String, Object> map) {
+  public List<BoardDto> selectBoardList(Map<String, Object> params) {
     List<BoardDto> boardList = new ArrayList<>();
     try {
       con = dataSource.getConnection();
-      String sql = "SELECT BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT FROM BOARD_T ORDER BY BOARD_NO DESC";
+      String sql = "SELECT BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT"
+                 + "  FROM (SELECT ROW_NUMBER() OVER(ORDER BY BOARD_NO " + params.get("sort") + ") AS RN, BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT"
+                 + "          FROM BOARD_T)"
+                 + " WHERE RN BETWEEN ? AND ?"; // 변수(?) 에 begin, end 전달
       ps = con.prepareStatement(sql);
-      rs = ps.executeQuery(); // SELETE의 실행 결과는 boardList 가 직접 받는 것이 아닌 무조건 rs가 받음 (SELETE는 executeQuery로 호출) 
-      while (rs.next()) { // rs.next() 는 읽어들이는 데이터만큼 생성해야함 (데이터 존재하면 true , 아니면 false) => 한줄씩 읽어들여서 builder()로  
+      ps.setInt(1, (int)params.get("begin"));   // Object로 저장되어 있기 때문에 맵에서 꺼내 쓸 때는 캐스팅 필요 (Object -> in)
+      ps.setInt(2, (int)params.get("end")); 
+      rs = ps.executeQuery();                   // SELETE의 실행 결과는 boardList 가 직접 받는 것이 아닌 무조건 rs가 받음 (SELETE는 executeQuery로 호출) 
+      while (rs.next()) {                       // rs.next() 는 읽어들이는 데이터만큼 생성해야함 (데이터 존재하면 true , 아니면 false) => 한줄씩 읽어들여서 builder()로  
         BoardDto board = BoardDto.builder()
                                  .board_no(rs.getInt(1)) // 1번째 칼럼은 board_no
                                  .title(rs.getString(2))
